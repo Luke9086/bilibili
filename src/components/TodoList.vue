@@ -37,7 +37,7 @@
       return {
         message: 'Hello Vue',
         count: 0,
-        toDoList: localStorage.getItem(this.itemKey) ? JSON.parse(localStorage.getItem(this.itemKey)) : [
+        toDoList: localStorage.getItem(this.itemKey) ? JSON.parse(localStorage.getItem(this.itemKey) as string) : [
           {title: "Learn Vue", completed: false},
           {title: "Learn React", completed: false},
           {title: "Learn Angular", completed: false}
@@ -54,7 +54,7 @@
         this.newToDo = ''
       },
       clear(){
-        this.toDoList = this.toDoList.filter(item => !item.completed)
+        this.toDoList = this.toDoList.filter((item:{ completed: boolean }) => !item.completed)
       }
     },
     watch: {
@@ -68,14 +68,14 @@
     },
     computed: {
       completedCount(){
-        return this.toDoList.filter(item => item.completed).length
+        return this.toDoList.filter((item: { completed: boolean }) => item.completed).length
       },
       allCompleted: {
         get(){
-          return this.toDoList.every(item => item.completed);
+          return this.toDoList.every((item:{ completed: boolean }) => item.completed);
         },
-        set(value){
-          this.toDoList.forEach(item => item.completed = value);
+        set(value:boolean){
+          this.toDoList.forEach((item: { completed: boolean }) => item.completed = value);
         }
       }
     }

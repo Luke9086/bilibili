@@ -15,3 +15,4 @@ vue2 Object.defineProperty length [3]=ddd 无法响应式
 vue3 Proxy
 响应式独立系统
 可以自定义渲染器
+pnpm run build给build的代码启动服务器
