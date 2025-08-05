@@ -51,8 +51,9 @@ onMounted(()=>{
   })
 	// 1. wbetter-scrol源码或者文档里找到，page是个啥类型
 	// @todo type about page
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   slider.value.on('slideWillChange',(page:unknown)=>{
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
     currentPageIndex.value = (page as any).pageX
   })
 })
