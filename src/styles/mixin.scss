@@ -1,0 +1,15 @@
+$namespace: 'bili' !default;
+$seperator: '__' !default;
+
+@mixin b($block) {
+    $B: $namespace + $seperator + $block;
+    .#{$B} {
+        @content;
+    }
+}
+
+@mixin sub($modifier){
+    &#{$seperator}#{$modifier} {
+      @content;
+    }
+}

@@ -6,10 +6,12 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import Components from 'unplugin-vue-components/vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
+import VueRouter from 'unplugin-vue-router/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    VueRouter(),
     vue(),
     vueDevTools(),
     legacy(),
@@ -27,11 +29,19 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://shengxinjing.cn:7001/',
+        target: 'https://my-api-rosy-gamma.vercel.app',
         changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        // rewrite: (path) => path.replace(/^\/api/, ''),
       },
+    },
+  },
+  test: {
+    browser: {
+      enabled: true,
+      provider: 'playwright',
+      instances: [
+        { browser: 'chromium' },
+      ],
     },
   },
 })

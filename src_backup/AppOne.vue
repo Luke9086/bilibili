@@ -10,7 +10,7 @@
 import { ref } from 'vue';
 import logo from './assets/logo.svg';
 import LearnTs from './components/learnTs.vue';
-import Composition from './components/composition.vue';
+import Composition from './components/compositionExample.vue';
 const count = ref(0)
 </script>
 <style lang="scss">
