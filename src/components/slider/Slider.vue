@@ -37,7 +37,7 @@ BScroll.use(Slide)
 
 // let nums = ref(4)
 const currentPageIndex = ref<number>(0)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 const slider:any = ref()
 const slide = ref<HTMLElement>()
 
@@ -53,7 +53,7 @@ onMounted(()=>{
 	// @todo type about page
    
   slider.value.on('slideWillChange',(page:unknown)=>{
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	 
     currentPageIndex.value = (page as any).pageX
   })
 })
@@ -68,6 +68,7 @@ onMounted(()=>{
 
 <style lang="scss">
 .slide-banner {
+	height: 100%;
 	.banner-wrapper {
 		position: relative;
 	}

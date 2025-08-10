@@ -15,12 +15,13 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(response => {
     const { data } = response;
     if (data.code === 0) {
-        return data.data;
+        return data;
     } else {
         message.error(data.message);
         return Promise.reject(data.message);
     }
 }, error => {
+    message.error(error.response.data.error||error.message);
     return Promise.reject(error);
 });
 export default service;

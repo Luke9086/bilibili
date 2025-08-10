@@ -12,7 +12,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 //         { path: '/video/:id', component: Video },
 //     ]
 // })
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 const routes:any =[];
 const modules = import.meta.glob('./views/*.vue');
 for (const path in modules) {

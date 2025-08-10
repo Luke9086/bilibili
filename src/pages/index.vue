@@ -4,44 +4,62 @@
       <a-col :span="12">
         <a-carousel autoplay>
           <div v-for="item in 5" :key="item">
-            <img :src="`/0${item}.png`" alt="" class="carousel-img">
+            <img :src="`/0${item}.webp`" alt="" class="carousel-img">
           </div>
         </a-carousel>
       </a-col>
       <a-col :span="12">
-        <BiliSlider ></BiliSlider>
+        <a-row>
+          <a-col :span="12" v-for="item in videoList.slice(0,4)" :key="item.key" >
+            <router-link :to="`/video/${item.key}`">
+              <a-card hoverable>
+                <template #actions>
+                  <PlayCircleOutlined @click="watchLater"/>
+                </template>
+                <template #cover>
+                  <img v-lazy="item.image" alt="" class="video-img">
+                </template>
+                <a-card-meta :title="item.name" :description="item.text">
+                </a-card-meta>
+              </a-card>
+            </router-link>
+          </a-col>
+        </a-row>
       </a-col>
     </a-row>
-    <a-row :gutter="16" style="margin-top: 16px;">
+    <a-row :gutter="[16,16]" style="margin-top: 16px;">
       <a-col :span="6" v-for="item in videoList" :key="item.key">
-        <a-card hoverable>
-          <template #actions>
-            <PlayCircleOutlined @click="watchLater"/>
-          </template>
-          <template #cover>
-            <img :src="item.image" alt="" class="video-img">
-          </template>
-          <a-card-meta :title="item.name" :description="item.text">  
-          </a-card-meta>
-        </a-card>
+        <router-link :to="`/video/${item.key}`">
+          <a-card hoverable>
+            <template #actions>
+              <PlayCircleOutlined @click="watchLater"/>
+            </template>
+            <template #cover>
+              <img v-lazy="item.image" alt="" class="video-img">
+            </template>
+            <a-card-meta :title="item.name" :description="item.text">
+            </a-card-meta>
+          </a-card>
+        </router-link>
       </a-col>
     </a-row>
     <div class="animate-ball">
       <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
         <div class="ball" v-show="animation.show"></div>
       </transition>
-
+    </div>
+    <div class="back-to-top" v-back-top="100">
+      <ArrowUpOutlined />
     </div>
   </DefaultLayout>
 </template>
 
 <script setup lang="ts">
 import DefaultLayout from '@/layouts/default.vue';
-import BiliSlider from '@/components/slider/Slider.vue'
 import {getVideoList} from '@/api/mock';
 import type {Video} from '@/api/mock';
 import {ref,onMounted,onUnmounted} from 'vue';
-import { PlayCircleOutlined } from '@ant-design/icons-vue';
+import { PlayCircleOutlined,ArrowUpOutlined } from '@ant-design/icons-vue';
 defineOptions({
   name: 'BiliIndex',
 });
@@ -49,16 +67,16 @@ const videoList = ref<Video[]>([]);
 let current = 0;
 const scroll = async ()=>{
 
-const scrollHeight = document.documentElement.scrollHeight
-const scrollTop = document.documentElement.scrollTop
-const clientHeight = document.documentElement.clientHeight
-if(clientHeight +scrollTop >= scrollHeight){
-  current++
-  // 设置loading
-  const newVideos = await getVideoList(current)
-  // 关闭loading
-  videoList.value = [...videoList.value,...newVideos]
-}
+  const scrollHeight = document.documentElement.scrollHeight;
+  const scrollTop = document.documentElement.scrollTop;
+  const clientHeight = document.documentElement.clientHeight;
+  if(clientHeight +scrollTop >= scrollHeight){
+    current++;
+    // 设置loading
+    const newVideos = await getVideoList(current);
+    // 关闭loading
+    videoList.value = [...videoList.value,...newVideos];
+  }
 
 }
 onMounted(async()=>{
@@ -154,19 +172,25 @@ function animateParabola(element: HTMLElement, startX: number, startY: number, e
 </script>
 <style lang="scss" scoped>
 .carousel-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  // width: 100%;
+  height: 888px;
+  object-fit: contain;
 }
 
 :deep(.slick-slide h3) {
   color: #fff;
 }
+
 :deep(.ant-card-meta-description){
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.video-img{
+  height: 300px;
+}
+
 .animate-ball .ball{
   position: fixed;
   z-index:100;
@@ -175,5 +199,24 @@ function animateParabola(element: HTMLElement, startX: number, startY: number, e
   border-radius: 50%;
   background-color: #fb7299;
   /* Remove transition as we're using JavaScript animation */
+}
+
+.back-to-top{
+  position: fixed;
+  right:20px;
+  bottom:20px;
+  z-index:100;
+  width:40px;
+  height:40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  cursor: pointer;
+  // display: none;
+  &:hover{
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.9);
+  }
 }
 </style>

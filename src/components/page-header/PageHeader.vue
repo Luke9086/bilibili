@@ -1,12 +1,23 @@
 <template>
  <div class="bili__page-header">
-    <div class="bili__page-header__bar">
+    <div class="bili__page-header__bar" ref="bar">
         <ul class="left_entry">
             <li v-for="link in links" :key="link.path">
                 <a :href="link.path">{{ link.name }}</a>
             </li>
         </ul>
         <ul class="right_entry">
+            <li v-if="!token" class="right_entry_item">
+                <router-link to="/login">
+                    登录
+                </router-link> 
+            </li>
+            <li v-else class="right_entry_item" @click="logout">
+                    <a href="javascript:void(0)">
+                        {{ username }}
+                        <LogoutOutlined />
+                    </a>
+            </li>
             <li v-for="entry in rightEntry" :key="entry.path" class="right_entry_item">
                 <a :href="entry.path">{{ entry.name }}</a>
             </li>
@@ -18,10 +29,10 @@
             </li>
         </ul>
     </div>
-    <div class="bili__page-header__banner">
-        <img class="banner" src="/header-back.png" alt="">
+    <div class="bili__page-header__banner" ref="banner">
+        <img class="banner" src="/header-back.png" alt="" fetchpriority="high">
     </div>
-    <div class="bili__page-header__logo">
+    <div class="bili__page-header__logo" ref="logo">
         <a href="https://www.bilibili.com">
             <img src="/logo.png" alt="" width="160" height="70">
         </a>
@@ -29,8 +40,12 @@
  </div>
 </template>
 <script setup lang="ts">
-import { UploadOutlined } from '@ant-design/icons-vue';
-import { ref } from 'vue';
+import { UploadOutlined, LogoutOutlined } from '@ant-design/icons-vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { useUserStore } from '@/stores/user';
+import { Modal,message } from 'ant-design-vue';
+import {debounce} from 'lodash';
+const {token, username,setToken,setUser} = useUserStore();
 const links = ref([
     {
         name: '首页',
@@ -59,6 +74,61 @@ const rightEntry = ref([
         path: '/login',
     }
 ])
+function logout() {
+    Modal.confirm({
+        title: '提示',
+        content: '确定要退出登录吗？',
+        onOk: () => {
+            setToken('');
+            setUser({});
+            message.success('退出登录成功');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+    });
+}
+const banner = ref<HTMLDivElement>();
+const bar = ref<HTMLDivElement>();
+const logo = ref<HTMLDivElement>();
+const showHeader = ref(true);
+
+const handleScroll = debounce(() => {
+    // Use window.scrollY as the primary scroll detection method
+    const scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+    
+    const shouldShowHeader = scrollTop <= 100;
+    
+    // Only update if the state actually changes to prevent unnecessary flickering
+    if (showHeader.value !== shouldShowHeader) {
+        showHeader.value = shouldShowHeader;
+        
+        // Use smooth transitions with height collapse
+        if (banner.value) {
+            banner.value.style.opacity = showHeader.value ? '1' : '0';
+            banner.value.style.transform = showHeader.value ? 'scaleY(1)' : 'scaleY(0)';
+            banner.value.style.transformOrigin = 'top';
+            banner.value!.style.position = showHeader.value ? 'relative': 'absolute';
+        }
+        if (logo.value) {
+            logo.value.style.opacity = showHeader.value ? '1' : '0';
+            logo.value.style.transform = showHeader.value ? 'translateY(0)' : 'translateY(-100%)';
+            logo.value.style.display = showHeader.value ? 'block' : 'none';
+        }
+        if (bar.value) {
+            bar.value.style.backgroundColor = !showHeader.value ? '#001529' : 'transparent';
+        }
+    }
+}, 150); // Slightly increased debounce for smoother behavior
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+});
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
+});
+
 </script>
 <style lang="scss" scoped>
 @use '@/styles/mixin';
@@ -66,9 +136,7 @@ const rightEntry = ref([
     display: flex;
     justify-content: space-between;
     align-items: center;
-    // position: sticky;
-    // top: 10px;
-    // z-index: 99;
+    flex-direction: column;
     @include mixin.sub(bar) {
         display: flex;
         position: absolute;
@@ -79,6 +147,7 @@ const rightEntry = ref([
         justify-content: space-between;
         padding: 0 20px;
         width: 100%;
+        height: auto;
         & .left_entry {
             display: flex;
             align-items: center;
@@ -115,12 +184,17 @@ const rightEntry = ref([
     }
     @include mixin.sub(banner) {
         position: relative;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         z-index: 1;
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        transform-origin: top;
+        overflow: hidden;
         img {
             width: 100%;
             height: 100%;
@@ -131,6 +205,7 @@ const rightEntry = ref([
         top: 40px;
         left: 60px;
         z-index: 99;
+        transition: opacity 0.3s ease, transform 0.3s ease;
     }
     a {
         color: #ffffff;

@@ -2,14 +2,25 @@
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import App from './App.vue'
 // import antd from 'ant-design-vue';
 // import './main.css';
 import 'ant-design-vue/dist/reset.css';
 import router from './router';
+import BackTop  from './directives/backTop';
+import { lazyLoad } from './directives/lazy';
+import VueVirtualScroller from 'vue-virtual-scroller'
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+
 const app = createApp(App);
 app.use(router);
-app.use(createPinia());
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+app.use(pinia);
+app.use(VueVirtualScroller);
+app.directive('back-top',BackTop);
+app.directive('lazy',lazyLoad);
 // app.use(antd);
 app.mount('#app');
 // console.log(import.meta.env.VITE_NAME);
