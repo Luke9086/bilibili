@@ -52,35 +52,35 @@ const videoList = ref<VideoItem[]>([
     title: 'Vue 3 Composition API 详细教程',
     author: '前端小陈',
     watchCount: 128500,
-    cover: '/01.png'
+    cover: '/01.webp'
   },
   {
     id: 2,
     title: 'TypeScript 从入门到精通',
     author: '代码艺术家',
     watchCount: 96700,
-    cover: '/02.png'
+    cover: '/02.webp'
   },
   {
     id: 3,
     title: 'Ant Design Vue 组件库使用指南',
     author: 'UI设计师',
     watchCount: 75300,
-    cover: '/03.png'
+    cover: '/03.webp'
   },
   {
     id: 4,
     title: 'Vite 构建工具深度解析',
     author: '工程化专家',
     watchCount: 54200,
-    cover: '/04.png'
+    cover: '/04.webp'
   },
   {
     id: 5,
     title: 'Pinia 状态管理最佳实践',
     author: '状态管理大师',
     watchCount: 42800,
-    cover: '/05.png'
+    cover: '/05.webp'
   }
 ])
 
