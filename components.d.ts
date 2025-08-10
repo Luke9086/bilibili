@@ -8,7 +8,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AAlert: typeof import('ant-design-vue/es')['Alert']
     AButton: typeof import('ant-design-vue/es')['Button']
     ACard: typeof import('ant-design-vue/es')['Card']
     ACardMeta: typeof import('ant-design-vue/es')['CardMeta']
@@ -23,9 +22,7 @@ declare module 'vue' {
     ALayoutFooter: typeof import('ant-design-vue/es')['LayoutFooter']
     ALayoutHeader: typeof import('ant-design-vue/es')['LayoutHeader']
     ARow: typeof import('ant-design-vue/es')['Row']
-    Button: typeof import('./src/components/button/button.vue')['default']
     CommentList: typeof import('./src/components/comment/CommentList.vue')['default']
-    Composition: typeof import('./src/components/composition.vue')['default']
     CompositionExample: typeof import('./src/components/compositionExample.vue')['default']
     Content: typeof import('./src/components/layout/Content.vue')['default']
     Footer: typeof import('./src/components/layout/Footer.vue')['default']
@@ -40,11 +37,8 @@ declare module 'vue' {
     LearnTs: typeof import('./src/components/learnTs.vue')['default']
     MyButton: typeof import('./src/components/button/MyButton.vue')['default']
     PageHeader: typeof import('./src/components/page-header/PageHeader.vue')['default']
-    ProxyTest: typeof import('./src/components/ProxyTest.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Scorll: typeof import('./src/components/scorll.vue')['default']
-    Scroll: typeof import('./src/components/scroll.vue')['default']
     Sider: typeof import('./src/components/layout/Sider.vue')['default']
     Slider: typeof import('./src/components/slider/Slider.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']

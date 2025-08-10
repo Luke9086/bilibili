@@ -5,12 +5,9 @@
     </div>
 </template>
 <script setup lang="ts">
-import { useRoute,useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 const route = useRoute();
-const router = useRouter();
-const id = route.params.id;
-console.log(router);
-console.log(id);
+const id = (route.params as { id?: string }).id;
 </script>
 <style scoped>
 
