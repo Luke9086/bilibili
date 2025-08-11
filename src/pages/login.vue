@@ -9,9 +9,9 @@
         :colon="false"
         >
             <a-form-item
-            label="Username"
+            label="用户"
             name="username"
-            :rules="[{ required: true, message: 'Please input your username!' }]"
+            :rules="[{ required: true, message: '请输入用户名' }]"
             >
                 <a-input v-model:value="form.username" placeholder="Username">
                     <template #prefix>
@@ -20,9 +20,9 @@
                 </a-input>
             </a-form-item>
             <a-form-item
-            label="Password"
+            label="密码"
             name="password"
-            :rules="[{ required: true, message: 'Please input your password!' }]"
+            :rules="[{ required: true, message: '请输入密码' }]"
             >
                 <a-input-password v-model:value="form.password" placeholder="Password">
                     <template #prefix>
@@ -31,7 +31,7 @@
                 </a-input-password>
             </a-form-item>
             <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-                <a-button type="primary" html-type="submit" :loading="loading">Login</a-button>
+                <a-button type="primary" html-type="submit" :loading="loading">登录</a-button>
             </a-form-item>
         </a-form>
     </div>
