@@ -1,0 +1,9 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/(.*)",
+        "destination": "https://my-api-rosy-gamma.vercel.app/api/$1"
+      }
+    ]
+  }
+  
