@@ -12,6 +12,11 @@
                     登录
                 </router-link> 
             </li>
+            <li v-if="!token" class="right_entry_item">
+                <router-link to="/register">
+                    注册
+                </router-link> 
+            </li>
             <li v-else class="right_entry_item" @click="logout">
                     <a href="javascript:void(0)">
                         {{ username }}
